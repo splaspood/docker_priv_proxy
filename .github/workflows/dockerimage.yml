@@ -1,0 +1,28 @@
+name: Docker Image CI
+
+on: [push]
+
+jobs:
+
+  build:
+ 
+    runs-on: ubuntu-latest
+ 
+    steps:
+    - uses: actions/checkout@master
+    - name: Publish RPi Container
+      uses: elgohr/Publish-Docker-Github-Action@master
+      with:
+        name: docker-registry.paravolve.net/paravolve/docker_priv_proxy-rpi
+        dockerfile: Dockerfile.rpi
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+        registry: ${{ secrets.DOCKER_REGISTRY_URL }}
+    - name: Publish x86_64 Container
+      uses: elgohr/Publish-Docker-Github-Action@master
+      with:
+        name: docker-registry.paravolve.net/paravolve/docker_priv_proxy-x86
+        dockerfile: Dockerfile.x86
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+        registry: ${{ secrets.DOCKER_REGISTRY_URL }}
